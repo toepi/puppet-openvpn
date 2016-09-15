@@ -1,21 +1,22 @@
 # ex: syntax=puppet ts=4 sw=4 si et
 
 define openvpn::server (
-    $bind_address     = $::ipaddress,
-    $protocol         = 'udp',
-    $port             = '1194',
-    $device           = 'tap0',
-    $routes           = [],
-    $client_isolation = true,
-    $crl_source       = false,
-    $tls_auth_source  = false,
-    $hmac_algorithm   = 'SHA1',
-    $cipher           = $::openvpn::defaults::cipher,
-    $tls_cipher       = $::openvpn::defaults::tls_cipher,
-    $ifconfig_pool    = false,
-    $ping             = false,
-    $ping_restart     = false,
-    $mtu_discovery    = true,
+    $bind_address          = $::ipaddress,
+    $protocol              = 'udp',
+    $port                  = '1194',
+    $device                = 'tap0',
+    $routes                = [],
+    $client_isolation      = true,
+    $crl_source            = false,
+    $tls_auth_source       = false,
+    $hmac_algorithm        = 'SHA1',
+    $cipher                = $::openvpn::defaults::cipher,
+    $tls_cipher            = $::openvpn::defaults::tls_cipher,
+    $ifconfig_pool         = false,
+    $ifconfig_pool_persist = false,
+    $ping                  = false,
+    $ping_restart          = false,
+    $mtu_discovery         = true,
     $address,
     $ca_cert_source,
     $cert_source,
@@ -25,6 +26,7 @@ define openvpn::server (
     $vpn_dir = "/etc/openvpn/${name}"
     $ssl_dir = "${vpn_dir}/ssl"
     $ccd_dir = "${name}/clients"
+    $ifconfig_pool_persist_file = "${vpn_dir}/ifconfig_pool"
 
     File {
         ensure => present,
