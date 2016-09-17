@@ -10,25 +10,27 @@ define openvpn::server (
     $key_content,
     $dh_params_source,
     $dh_params_content,
-    $bind_address     = $::ipaddress,
-    $protocol         = 'udp',
-    $port             = '1194',
-    $device           = 'tap0',
-    $routes           = [],
-    $client_isolation = true,
-    $crl_source       = false,
-    $tls_auth_source  = false,
-    $hmac_algorithm   = 'SHA1',
-    $cipher           = $::openvpn::defaults::cipher,
-    $tls_cipher       = $::openvpn::defaults::tls_cipher,
-    $ifconfig_pool    = false,
-    $ping             = false,
-    $ping_restart     = false,
-    $mtu_discovery    = true,
+    $bind_address          = $::ipaddress,
+    $protocol              = 'udp',
+    $port                  = '1194',
+    $device                = 'tap0',
+    $routes                = [],
+    $client_isolation      = true,
+    $crl_source            = false,
+    $tls_auth_source       = false,
+    $hmac_algorithm        = 'SHA1',
+    $cipher                = $::openvpn::defaults::cipher,
+    $tls_cipher            = $::openvpn::defaults::tls_cipher,
+    $ifconfig_pool         = false,
+    $ifconfig_pool_persist = false,
+    $ping                  = false,
+    $ping_restart          = false,
+    $mtu_discovery         = true,
 ) {
     $vpn_dir = "/etc/openvpn/${name}"
     $ssl_dir = "${vpn_dir}/ssl"
     $ccd_dir = "${name}/clients"
+    $ifconfig_pool_persist_file = "${vpn_dir}/ifconfig_pool"
 
     if (empty($ca_cert_source) and empty($ca_cert_content)) {
         fail('Must specify either ca_cert_source or ca_cert_content property of openvpn::server')
