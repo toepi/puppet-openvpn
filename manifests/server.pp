@@ -16,6 +16,8 @@ define openvpn::server (
     $ping             = false,
     $ping_restart     = false,
     $mtu_discovery    = true,
+    $up_script        = undef,
+    $down_script      = undef,
     $address,
     $ca_cert_source,
     $cert_source,
