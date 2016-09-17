@@ -44,14 +44,18 @@ ping-timer-rem
 
 # Address of the local tap0 interface
 <%- (ip, prefixlen) = @address.split /\// -%>
+<%- if @server_mode === 'normal' -%>
 ifconfig <%= "#{ip} #{IPAddr.new('255.255.255.255').mask(prefixlen).to_s}" %>
-<%- if @ifconfig_pool -%>
+<%- end -%>
+<%- if @ifconfig_pool and @server_mode === 'normal' -%>
 
 # Client address pool
 ifconfig-pool <%= @ifconfig_pool['start_address'] %> <%= @ifconfig_pool['stop_address'] %> <%= @ifconfig_pool['netmask'] %>
 <%- if @ifconfig_pool_persist -%>
 ifconfig-pool-persist <%= @ifconfig_pool_persist_file %>
 <%- end -%>
+<%- elsif @ifconfig_pool -%>
+server-bridge <%= "#{ip} #{IPAddr.new('255.255.255.255').mask(prefixlen).to_s}" %> <%= @ifconfig_pool['start_address'] %> <%= @ifconfig_pool['stop_address'] %>
 <%- end -%>
 
 # Don't complain about not knowing IP addresses.
